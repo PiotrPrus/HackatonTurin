@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 
 import com.example.hackturin.R
 
@@ -24,6 +25,11 @@ class SettingsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(SettingsViewModel::class.java)
         // TODO: Use the ViewModel
+        viewModel.currentRange.observe(this, Observer { sentThiIntToFirebase(it) })
+    }
+
+    private fun sentThiIntToFirebase(it: Int?) {
+
     }
 
 }
