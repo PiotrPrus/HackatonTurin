@@ -14,4 +14,5 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, MapActivity::class.java))
         finish()
     }
+
 }
