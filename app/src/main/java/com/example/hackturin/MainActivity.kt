@@ -11,8 +11,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 //        stopService(Intent(baseContext, com.here.android.mpa.service.MapService::class.java))
-        startActivity(Intent(this, MapActivity::class.java))
-        finish()
+        //\startActivity(Intent(this, MapActivity::class.java))
+        //finish()
     }
 
 }
