@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">HackTurin</string>
+    <string name="service_intent">here_service_intent</string>
+    <string name="license_key">
+        eCO2SvL9JctaLU5JPkAuluOLsgJG7eowehgoUoP9DFApu+3GYdypdK675ci0/CgsBbWYmxpXaZ+hKUtyirMGjw1F98Tq7ch46WujMxPSSmg4anDWWLtJpxOicBLLuGuS7Dgc3sOKf4mxheOlf1mpBMwHOHSRlN3kHsKzOwxw4cc1nEUCUCc0cZGnBF1Z5EahYxm6PkGzbTI7Po4yW9yDmjCknhOrWE3+PDqvYo0RlmFWt4h1T9E/oK6tRI0mTAEtRWBTsU76ht0ZeV2epZFsAGdRp9S3fixtEl0IqXGU0ZFZUmAQIQSjUdErxRFyfagCJwzbkMLik2hljwes5gygziX+gE3EVROKZ8xveZvqeMxafRynCD79a+3sxeRTwwWZ6o5nhK2jpn1Og2hVcQMoBliySe9TNZ/EyTUhi0a7H4r4sXDiX0uoo2m1Py//fXj5ZZ/xb832Bhe1Y5rYxnhoz0wholpHqxGMPhj2NHaRi7rZQYe8of+xWOjfJvuAxPv9k9yVHxlVZRbSsh9itP2tZ6K+RvgFZmJOFpuUbE8JR9LDIFM+USqaolzV00YvBlcLtAc5gsN/aldhkuMPwJ+1GCe3CqQGOY9PPqFNI2HEoYdbLUVRqzBLX8WOKAxgDefzJ3tsJL8p2UXtUhLaxpPnzzx6LOVEblZ+6XJLvzNT2lM=
+    </string>
+    <string name="app_id">A4uJDcjiFNDy7dDjAQI5</string>
+    <string name="app_code">kG-f8gmabzoqr5q7RV3bvg</string>
+    <string name="title_activity_map">MapActivity</string>
 </resources>
