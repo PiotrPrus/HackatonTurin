@@ -53,6 +53,7 @@
                 <action android:name="{YOUR_INTENT_NAME}"></action>
             </intent-filter>
         </service>
+        <service android:name=".service.GoogleService"/>
     </application>
 
 </manifest>

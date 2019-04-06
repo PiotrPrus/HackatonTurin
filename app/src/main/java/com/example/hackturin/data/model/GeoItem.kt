@@ -11,3 +11,7 @@ data class GeoItem (
     @SerializedName("layerId") val layerId : Int,
     @SerializedName("geometry") val geometry : String
 )
+
+data class Geometries(
+    @SerializedName("geometries") val geometries: List<GeoItem>
+)

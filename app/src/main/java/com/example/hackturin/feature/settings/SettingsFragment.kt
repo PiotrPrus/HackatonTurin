@@ -37,14 +37,12 @@ class SettingsFragment : Fragment() {
         switchTrack = view.findViewById(R.id.switchTripMode)
         seekRange = view.findViewById(R.id.seekBarRange)
 
-
-
         return view
     }
 
-    override fun onAttach(context: Context?) {
-        this.contextActivity = context!!
+    override fun onAttach(context: Context) {
         super.onAttach(context)
+        this.contextActivity = context
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

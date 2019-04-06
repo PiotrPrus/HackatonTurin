@@ -1,15 +1,16 @@
-package com.example.hackturin;
+package com.example.hackturin.service;
 
+import android.Manifest;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.util.Timer;
@@ -20,7 +21,7 @@ public class GoogleService extends Service implements LocationListener {
 
     boolean isGPSEnable = false;
     boolean isNetworkEnable = false;
-    double latitude,longitude;
+    double latitude, longitude;
     LocationManager locationManager;
     Location location;
     private Handler mHandler = new Handler();
@@ -29,11 +30,7 @@ public class GoogleService extends Service implements LocationListener {
     public static String str_receiver = "servicetutorial.service.receiver";
     Intent intent;
 
-
-
-
     public GoogleService() {
-
     }
 
     @Override
@@ -46,9 +43,9 @@ public class GoogleService extends Service implements LocationListener {
         super.onCreate();
 
         mTimer = new Timer();
-        mTimer.schedule(new TimerTaskToGetLocation(),5,notify_interval);
+        mTimer.schedule(new TimerTaskToGetLocation(), 5, notify_interval);
         intent = new Intent(str_receiver);
-//        fn_getlocation();
+        fn_getlocation();
     }
 
     @Override
@@ -71,18 +68,30 @@ public class GoogleService extends Service implements LocationListener {
 
     }
 
-    private void fn_getlocation(){
-        locationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
+    private void fn_getlocation() {
+        locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
         isGPSEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         isNetworkEnable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-        if (!isGPSEnable && !isNetworkEnable){
+        if (!isGPSEnable && !isNetworkEnable) {
 
-        }else {
+        } else {
 
-            if (isNetworkEnable){
+            if (isNetworkEnable) {
                 location = null;
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,1000,0,this);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    Activity#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for Activity#requestPermissions for more details.
+                        return;
+                    }
+                }
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, this);
                 if (locationManager!=null){
                     location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                     if (location!=null){

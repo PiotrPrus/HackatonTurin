@@ -1,21 +1,22 @@
 package com.example.hackturin.feature.map
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.example.hackturin.R
 import com.here.android.mpa.common.GeoCoordinate
-import com.here.android.mpa.common.OnEngineInitListener
-
-import kotlinx.android.synthetic.main.activity_map.*
-import com.here.android.mpa.mapping.SupportMapFragment
-import com.here.android.mpa.mapping.Map
-import java.io.File
-import android.content.pm.PackageManager
 import com.here.android.mpa.common.MapSettings
+import com.here.android.mpa.common.OnEngineInitListener
+import com.here.android.mpa.mapping.Map
+import com.here.android.mpa.mapping.MapMarker
+import com.here.android.mpa.mapping.SupportMapFragment
+import kotlinx.android.synthetic.main.activity_map.*
+import org.koin.android.ext.android.inject
+import java.io.File
 
 
 class MapActivity : AppCompatActivity() {
@@ -24,16 +25,20 @@ class MapActivity : AppCompatActivity() {
     private lateinit var map: Map
     // map fragment embedded in this activity
     private lateinit var mapFragment: SupportMapFragment
+    private val viewModel: MapViewModel by inject()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView()
-
         setSupportActionBar(toolbar)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+        viewModel.loadGeoFences(45.07, 7.68, 400)
+        viewModel.mapMakers.observe(this, Observer { list -> addMarkersToMap(list) })
+    }
+
+    private fun addMarkersToMap(list: List<MapMarker>?) {
+        Log.d("aaaa", "List of markers: $list")
+        map.addMapObjects(list)
     }
 
     private fun initView() {
@@ -55,14 +60,14 @@ class MapActivity : AppCompatActivity() {
 
         val success = MapSettings.setIsolatedDiskCacheRootPath(diskCacheRoot, intentName)
 
-        if (!success){
+        if (!success) {
             Toast.makeText(this, "Unable to isolate disk cache", Toast.LENGTH_SHORT).show()
         } else {
             mapFragment.init { error ->
                 if (error == OnEngineInitListener.Error.NONE) {
                     map = mapFragment.map
-                    map.setCenter(GeoCoordinate(49.196261, -123.004773, 0.0), Map.Animation.NONE)
-                    map.zoomLevel = (map.maxZoomLevel + map.minZoomLevel) / 2
+                    map.setCenter(GeoCoordinate(45.07, 7.68, 0.0), Map.Animation.NONE)
+                    map.zoomLevel = (map.maxZoomLevel) / 1.2
                 } else {
                     Log.d("AAAA", "Error occured: $error")
                 }
