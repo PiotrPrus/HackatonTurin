@@ -6,6 +6,7 @@ import android.os.Environment
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.hackturin.R
 import com.example.hackturin.data.model.GeoItem
@@ -28,14 +29,18 @@ class MapActivity : AppCompatActivity() {
     // map fragment embedded in this activity
     private lateinit var mapFragment: SupportMapFragment
     private val viewModel: MapViewModel by inject()
+    private val mapInitialized = MutableLiveData<Boolean>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initView()
-        setSupportActionBar(toolbar)
+        mapInitialized.value = false
         val geoItem = intent.getParcelableExtra<GeoItem>(KEY_GEO_ITEM)
-        addItemToMap(geoItem)
+        initView(geoItem.nearestLat, geoItem.nearestLon)
+        mapInitialized.observe(this, Observer { initialized ->
+            if (initialized) addItemToMap(geoItem)
+        })
+        setSupportActionBar(toolbar)
 //        viewModel.loadGeoFences(45.07, 7.68, 400)
 //        viewModel.mapMakers.observe(this, Observer { list -> addMarkersToMap(list) })
     }
@@ -52,7 +57,7 @@ class MapActivity : AppCompatActivity() {
         if (this::map.isInitialized) map.addMapObjects(list)
     }
 
-    private fun initView() {
+    private fun initView(nearestLat: Double, nearestLon: Double) {
         setContentView(R.layout.activity_map)
 
         mapFragment = supportFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
@@ -77,8 +82,9 @@ class MapActivity : AppCompatActivity() {
             mapFragment.init { error ->
                 if (error == OnEngineInitListener.Error.NONE) {
                     map = mapFragment.map
-                    map.setCenter(GeoCoordinate(45.07, 7.68, 0.0), Map.Animation.NONE)
+                    map.setCenter(GeoCoordinate(nearestLat, nearestLon, 0.0), Map.Animation.NONE)
                     map.zoomLevel = (map.maxZoomLevel) / 1.2
+                    mapInitialized.value = true
                 } else {
                     Log.d("AAAA", "Error occured: $error")
                 }
