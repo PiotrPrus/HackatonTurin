@@ -4,6 +4,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
@@ -31,7 +32,6 @@ class MapActivity : AppCompatActivity() {
     private val viewModel: MapViewModel by inject()
     private val mapInitialized = MutableLiveData<Boolean>()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mapInitialized.value = false
@@ -41,6 +41,18 @@ class MapActivity : AppCompatActivity() {
             if (initialized) addItemToMap(geoItem)
         })
         setSupportActionBar(toolbar)
+        viewModel.wikiText.observe(this, Observer {
+            val wikiTV = findViewById<TextView>(R.id.wikipediaTV)
+            wikiTV.text = it
+        })
+        viewModel.wikiTextTitle.observe(this, Observer {
+            val wikiTitle = findViewById<TextView>(R.id.wikiTextTitle)
+            wikiTitle.text = it
+        })
+        viewModel.wikiSubtitle.observe(this, Observer {
+            val wikiSubtitle = findViewById<TextView>(R.id.wikiTextSubtitle)
+            wikiSubtitle.text = it
+        })
 //        viewModel.loadGeoFences(45.07, 7.68, 400)
 //        viewModel.mapMakers.observe(this, Observer { list -> addMarkersToMap(list) })
     }
@@ -49,6 +61,7 @@ class MapActivity : AppCompatActivity() {
         geoItem?.let {
             val marker = MapMarker(GeoCoordinate(geoItem.nearestLat, geoItem.nearestLon))
             map.addMapObject(marker)
+                viewModel.getWikiText("Parco_del_Valentino")
         }
     }
 
