@@ -14,8 +14,8 @@ import io.reactivex.schedulers.Schedulers
 class MainViewModel(private val geoFenceRepository: GeoFenceRepository) : ViewModel() {
 
     private val disposable = CompositeDisposable()
-    private var lastGeoItem: GeoItem? = null
-    val showNotificationEvent = MutableLiveData<Event<Unit>>()
+    private var lastGeoItemId: Int = -1
+    val showNotificationEvent = MutableLiveData<Event<GeoItem>>()
 
     fun getGeoDataByLocation(lat: Double, long: Double) {
         geoFenceRepository.loadNearestAttraction(lat, long)
@@ -27,10 +27,10 @@ class MainViewModel(private val geoFenceRepository: GeoFenceRepository) : ViewMo
     }
 
     private fun showNotification(result: GeoItem?) {
-        if (result != null) {
+        if (result != null && result.attributes.ID != lastGeoItemId) {
             Log.d("AAAA", "Show notification for item: $result")
-            lastGeoItem = result
-            showNotificationEvent.value = Event(Unit)
+            lastGeoItemId = result.attributes.ID
+            showNotificationEvent.value = Event(result)
         }
     }
 

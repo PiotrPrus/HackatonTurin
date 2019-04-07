@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.hackturin.R
+import com.example.hackturin.data.model.GeoItem
+import com.example.hackturin.utils.KEY_GEO_ITEM
 import com.here.android.mpa.common.GeoCoordinate
 import com.here.android.mpa.common.MapSettings
 import com.here.android.mpa.common.OnEngineInitListener
@@ -32,8 +34,17 @@ class MapActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         initView()
         setSupportActionBar(toolbar)
-        viewModel.loadGeoFences(45.07, 7.68, 400)
-        viewModel.mapMakers.observe(this, Observer { list -> addMarkersToMap(list) })
+        val geoItem = intent.getParcelableExtra<GeoItem>(KEY_GEO_ITEM)
+        addItemToMap(geoItem)
+//        viewModel.loadGeoFences(45.07, 7.68, 400)
+//        viewModel.mapMakers.observe(this, Observer { list -> addMarkersToMap(list) })
+    }
+
+    private fun addItemToMap(geoItem: GeoItem?) {
+        geoItem?.let {
+            val marker = MapMarker(GeoCoordinate(geoItem.nearestLat, geoItem.nearestLon))
+            map.addMapObject(marker)
+        }
     }
 
     private fun addMarkersToMap(list: List<MapMarker>?) {

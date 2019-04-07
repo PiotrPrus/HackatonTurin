@@ -11,10 +11,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.hackturin.R
+import com.example.hackturin.data.model.GeoItem
 import com.example.hackturin.feature.map.MapActivity
 import com.example.hackturin.service.GoogleService
 import com.example.hackturin.utils.CITY_WONDER_CHANNEL_ID
 import com.example.hackturin.utils.EventObserver
+import com.example.hackturin.utils.KEY_GEO_ITEM
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
@@ -36,16 +38,15 @@ class MainActivity : AppCompatActivity() {
         startService(Intent(this, GoogleService::class.java))
         viewModel.showNotificationEvent.observe(this, EventObserver {
             with(NotificationManagerCompat.from(this)) {
-                notify(NOTIFICATION_ID, buildNotification())
+                notify(NOTIFICATION_ID, buildNotification(it))
             }
         })
-//        startActivity(Intent(this, MapActivity::class.java))
-
     }
 
-    private fun buildNotification(): Notification {
+    private fun buildNotification(item: GeoItem): Notification {
         val intent = Intent(this, MapActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            putExtra(KEY_GEO_ITEM, item)
         }
         val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
 
