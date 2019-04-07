@@ -51,9 +51,9 @@ class MainActivity : AppCompatActivity() {
         val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
 
         val builder = NotificationCompat.Builder(this, CITY_WONDER_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_notifications)
-            .setContentTitle("Attention!")
-            .setContentText("New attraction nearby")
+            .setSmallIcon(R.mipmap.ic_marker)
+            .setContentTitle("Look there")
+            .setContentText("We found attraction near you, ${item.attributes.NAME}")
             .setContentIntent(pendingIntent)
             .setStyle(NotificationCompat.BigTextStyle())
             .setPriority(NotificationCompat.PRIORITY_HIGH)

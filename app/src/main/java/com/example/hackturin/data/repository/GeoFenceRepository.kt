@@ -11,7 +11,7 @@ class GeoFenceRepository(private val geoFenceDataSource: GeoFenceDataSource) {
         geoFenceDataSource.getGeoFences(lat, long, radius)
 
     fun loadNearestAttraction(lat: Double, long: Double): Single<GeoItem> {
-        return geoFenceDataSource.getGeoFences(lat, long, 1000)
+        return geoFenceDataSource.getGeoFences(lat, long, 50)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .map { list -> list.geometries[0] }

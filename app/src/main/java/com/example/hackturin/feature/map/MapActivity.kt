@@ -13,6 +13,7 @@ import com.example.hackturin.R
 import com.example.hackturin.data.model.GeoItem
 import com.example.hackturin.utils.KEY_GEO_ITEM
 import com.here.android.mpa.common.GeoCoordinate
+import com.here.android.mpa.common.Image
 import com.here.android.mpa.common.MapSettings
 import com.here.android.mpa.common.OnEngineInitListener
 import com.here.android.mpa.mapping.Map
@@ -59,9 +60,15 @@ class MapActivity : AppCompatActivity() {
 
     private fun addItemToMap(geoItem: GeoItem?) {
         geoItem?.let {
-            val marker = MapMarker(GeoCoordinate(geoItem.nearestLat, geoItem.nearestLon))
+                        val image = Image()
+            try {
+                image.setImageResource(R.mipmap.ic_marker)
+            } catch (e: Exception){
+                Log.d("MapViewModel", e.localizedMessage)
+            }
+            val marker = MapMarker(GeoCoordinate(geoItem.nearestLat, geoItem.nearestLon), image)
             map.addMapObject(marker)
-                viewModel.getWikiText("Parco_del_Valentino")
+                viewModel.getWikiText(geoItem.attributes.NAME)
         }
     }
 
