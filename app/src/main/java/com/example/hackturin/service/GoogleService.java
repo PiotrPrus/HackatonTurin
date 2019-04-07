@@ -91,13 +91,13 @@ public class GoogleService extends Service implements LocationListener {
                         return;
                     }
                 }
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, this);
-                if (locationManager!=null){
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 30 * 1000, 50, this);
+                if (locationManager != null) {
                     location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                    if (location!=null){
+                    if (location != null) {
 
-                        Log.e("latitude",location.getLatitude()+"");
-                        Log.e("longitude",location.getLongitude()+"");
+                        Log.e("latitude", location.getLatitude() + "");
+                        Log.e("longitude", location.getLongitude() + "");
 
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
@@ -108,14 +108,14 @@ public class GoogleService extends Service implements LocationListener {
             }
 
 
-            if (isGPSEnable){
+            if (isGPSEnable) {
                 location = null;
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000,0,this);
-                if (locationManager!=null){
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30 * 1000, 50, this);
+                if (locationManager != null) {
                     location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    if (location!=null){
-                        Log.e("latitude",location.getLatitude()+"");
-                        Log.e("longitude",location.getLongitude()+"");
+                    if (location != null) {
+                        Log.e("latitude", location.getLatitude() + "");
+                        Log.e("longitude", location.getLongitude() + "");
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
                         fn_update(location);
@@ -128,7 +128,7 @@ public class GoogleService extends Service implements LocationListener {
 
     }
 
-    private class TimerTaskToGetLocation extends TimerTask{
+    private class TimerTaskToGetLocation extends TimerTask {
         @Override
         public void run() {
 
@@ -142,10 +142,10 @@ public class GoogleService extends Service implements LocationListener {
         }
     }
 
-    private void fn_update(Location location){
+    private void fn_update(Location location) {
 
-        intent.putExtra("latutide",location.getLatitude()+"");
-        intent.putExtra("longitude",location.getLongitude()+"");
+        intent.putExtra("latutide", location.getLatitude() + "");
+        intent.putExtra("longitude", location.getLongitude() + "");
         sendBroadcast(intent);
     }
 

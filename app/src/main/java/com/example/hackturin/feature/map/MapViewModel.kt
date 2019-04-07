@@ -31,7 +31,6 @@ class MapViewModel(private val geoFenceRepository: GeoFenceRepository) : ViewMod
     }
 
     private fun showResultOnMap(list: List<GeoItem>?) {
-        Log.d("aaaa", "List fetched: $list")
         list?.let {
             val mapList = mutableListOf<MapMarker>()
 //            val image = Image()
@@ -41,9 +40,7 @@ class MapViewModel(private val geoFenceRepository: GeoFenceRepository) : ViewMod
 //                Log.d("MapViewModel", e.localizedMessage)
 //            }
             for (item in list) {
-                Log.d("aaaa", "One item from list: $item")
                 val marker = MapMarker(GeoCoordinate(item.nearestLat, item.nearestLon))
-                Log.d("aaaa", "Marker item: $marker")
                 mapList.add(marker)
             }
             mapMakers.value = mapList

@@ -38,7 +38,7 @@ class MapActivity : AppCompatActivity() {
 
     private fun addMarkersToMap(list: List<MapMarker>?) {
         Log.d("aaaa", "List of markers: $list")
-        map.addMapObjects(list)
+        if (this::map.isInitialized) map.addMapObjects(list)
     }
 
     private fun initView() {
