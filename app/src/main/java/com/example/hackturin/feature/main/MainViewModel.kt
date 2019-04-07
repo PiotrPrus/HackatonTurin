@@ -1,9 +1,11 @@
 package com.example.hackturin.feature.main
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.hackturin.data.model.GeoItem
 import com.example.hackturin.data.repository.GeoFenceRepository
+import com.example.hackturin.utils.Event
 import com.example.hackturin.utils.addTo
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -13,6 +15,7 @@ class MainViewModel(private val geoFenceRepository: GeoFenceRepository) : ViewMo
 
     private val disposable = CompositeDisposable()
     private var lastGeoItem: GeoItem? = null
+    val showNotificationEvent = MutableLiveData<Event<Unit>>()
 
     fun getGeoDataByLocation(lat: Double, long: Double) {
         geoFenceRepository.loadNearestAttraction(lat, long)
@@ -24,9 +27,10 @@ class MainViewModel(private val geoFenceRepository: GeoFenceRepository) : ViewMo
     }
 
     private fun showNotification(result: GeoItem?) {
-        if (result != null && result != lastGeoItem){
+        if (result != null) {
             Log.d("AAAA", "Show notification for item: $result")
             lastGeoItem = result
+            showNotificationEvent.value = Event(Unit)
         }
     }
 
